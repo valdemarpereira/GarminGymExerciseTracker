@@ -8,6 +8,10 @@ class GarminGymExerciseTrackerView extends Ui.View {
     hidden var smallFontHeight =  Gfx.getFontHeight(Gfx.FONT_SMALL);
     
     hidden var itemsToDisplay = 3;
+    
+    
+    
+    
         	
     function initialize() {
         View.initialize();
