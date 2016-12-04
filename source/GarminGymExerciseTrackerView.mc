@@ -6,7 +6,10 @@ class GarminGymExerciseTrackerView extends Ui.View {
 
 	hidden var medFontHeight = Gfx.getFontHeight(Gfx.FONT_MEDIUM);
     hidden var largeFontHeight = Gfx.getFontHeight(Gfx.FONT_LARGE);
-    hidden var smallFontHeight =  Gfx.getFontHeight(Gfx.FONT_SYSTEM_TINY);
+    hidden var smallFontHeight =  Gfx.getFontHeight(Gfx.FONT_SMALL);
+    hidden var tinyFontHeight =  Gfx.getFontHeight(Gfx.FONT_SYSTEM_TINY);
+    hidden var xtinyFontHeight = Gfx.getFontHeight(Gfx.FONT_SYSTEM_XTINY);
+    
     hidden var selectedIndex;
     hidden var selectedCategories;
     
@@ -72,20 +75,45 @@ class GarminGymExerciseTrackerView extends Ui.View {
     }
     
     function drawTopItem(dc){
-    	dc.drawText(dc.getWidth() / 2, (dc.getHeight() / 9) - (medFontHeight / 2), Gfx.FONT_MEDIUM, getItemDisplayText(-1), Gfx.TEXT_JUSTIFY_CENTER);
-        dc.drawText(dc.getWidth() / 2, 5 * dc.getHeight() / 18 - (smallFontHeight/2), Gfx.FONT_SYSTEM_TINY, getLastWorkoutDetails(-1), Gfx.TEXT_JUSTIFY_CENTER);
+    	if(isCategory(-1)){
+			dc.drawText(dc.getWidth() / 2, dc.getHeight() / 6 - (medFontHeight / 2), Gfx.FONT_MEDIUM, getItemDisplayText(-1), Gfx.TEXT_JUSTIFY_CENTER);	
+		} else {
+			dc.drawText(dc.getWidth() / 2, (dc.getHeight() / 9) - (smallFontHeight / 2), Gfx.FONT_SMALL, getItemDisplayText(-1), Gfx.TEXT_JUSTIFY_CENTER);
+        	dc.drawText(dc.getWidth() / 2, 5 * dc.getHeight() / 18 - (xtinyFontHeight/2), Gfx.FONT_SYSTEM_XTINY, getLastWorkoutDetails(-1), Gfx.TEXT_JUSTIFY_CENTER);
+        }
     }
 
 	function drawMiddleItem(dc) {
-		dc.drawText(dc.getWidth() / 2, 4 * dc.getHeight() / 9 - (largeFontHeight / 2), Gfx.FONT_LARGE, getItemDisplayText(0), Gfx.TEXT_JUSTIFY_CENTER);
-        dc.drawText(dc.getWidth() / 2, 11 * dc.getHeight() / 18 - (smallFontHeight/2), Gfx.FONT_SYSTEM_TINY, getLastWorkoutDetails(0), Gfx.TEXT_JUSTIFY_CENTER);
+		if(isCategory(0)){
+			dc.drawText(dc.getWidth() / 2, 3 * dc.getHeight() / 6 - (largeFontHeight / 2), Gfx.FONT_LARGE, getItemDisplayText(0), Gfx.TEXT_JUSTIFY_CENTER);	
+		} else {
+			dc.drawText(dc.getWidth() / 2, 4 * dc.getHeight() / 9 - (largeFontHeight / 2), Gfx.FONT_LARGE, getItemDisplayText(0), Gfx.TEXT_JUSTIFY_CENTER);
+        	dc.drawText(dc.getWidth() / 2, 11 * dc.getHeight() / 18 - (smallFontHeight/2), Gfx.FONT_SYSTEM_TINY, getLastWorkoutDetails(0), Gfx.TEXT_JUSTIFY_CENTER);
+        }
 	}
     
     function drawBottomItem(dc){
-    	dc.drawText(dc.getWidth() / 2, 7 * dc.getHeight() / 9 - (medFontHeight / 2), Gfx.FONT_MEDIUM, getItemDisplayText(1), Gfx.TEXT_JUSTIFY_CENTER);
-        dc.drawText(dc.getWidth() / 2, 17 * dc.getHeight() / 18 - (smallFontHeight/2), Gfx.FONT_SYSTEM_TINY, getLastWorkoutDetails(1), Gfx.TEXT_JUSTIFY_CENTER);
+    	if(isCategory(1)){
+			dc.drawText(dc.getWidth() / 2, 5 * dc.getHeight() / 6 - (medFontHeight / 2), Gfx.FONT_MEDIUM, getItemDisplayText(1), Gfx.TEXT_JUSTIFY_CENTER);	
+		} else {
+			dc.drawText(dc.getWidth() / 2, 7 * dc.getHeight() / 9 - (smallFontHeight / 2), Gfx.FONT_SMALL, getItemDisplayText(1), Gfx.TEXT_JUSTIFY_CENTER);
+        	dc.drawText(dc.getWidth() / 2, 17 * dc.getHeight() / 18 - (xtinyFontHeight/2), Gfx.FONT_SYSTEM_XTINY, getLastWorkoutDetails(1), Gfx.TEXT_JUSTIFY_CENTER);
+        }
     }
     
+    function isCategory(selectedItemOffset){
+    	var indexCat = selectedIndex + selectedItemOffset;
+		
+		if(indexCat < 0 ){
+			indexCat = selectedCategories.size() - 1;
+		}
+		
+		if(indexCat >= selectedCategories.size()){
+			indexCat = 0;
+		}
+			
+		return selectedCategories[indexCat].subCat != null;
+    }
     function getItemDisplayText(selectedItemOffset) {
     	
 		var indexCat = selectedIndex + selectedItemOffset;
