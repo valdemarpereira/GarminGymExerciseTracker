@@ -198,7 +198,7 @@ class GarminGymExerciseTrackerView extends Ui.View {
     		selectedCategories = selectedCategories[selectedIndex].subCat;
     		selectedIndex = 0;
     	} else {
-    		Ui.pushView(new RecordExercisePickerView(), new RecordExercisePickerDelegate(selectedCategories[selectedIndex].id), Ui.SLIDE_IMMEDIATE);
+    		Ui.pushView(new RecordExercisePickerView(selectedCategories[selectedIndex].id), new RecordExercisePickerDelegate(selectedCategories[selectedIndex].id), Ui.SLIDE_IMMEDIATE);
     	}
     }
     
@@ -220,5 +220,4 @@ class GarminGymExerciseTrackerView extends Ui.View {
     // memory.
     function onHide() {
     }
-
 }
