@@ -1,11 +1,12 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
+using Toybox.Application as App;
 
 class GarminGymExerciseTrackerView extends Ui.View {
 
 	hidden var medFontHeight = Gfx.getFontHeight(Gfx.FONT_MEDIUM);
     hidden var largeFontHeight = Gfx.getFontHeight(Gfx.FONT_LARGE);
-    hidden var smallFontHeight =  Gfx.getFontHeight(Gfx.FONT_SMALL);
+    hidden var smallFontHeight =  Gfx.getFontHeight(Gfx.FONT_SYSTEM_TINY);
     hidden var selectedIndex;
     hidden var selectedCategories;
     
@@ -72,17 +73,17 @@ class GarminGymExerciseTrackerView extends Ui.View {
     
     function drawTopItem(dc){
     	dc.drawText(dc.getWidth() / 2, (dc.getHeight() / 9) - (medFontHeight / 2), Gfx.FONT_MEDIUM, getItemDisplayText(-1), Gfx.TEXT_JUSTIFY_CENTER);
-        dc.drawText(dc.getWidth() / 2, 5 * dc.getHeight() / 18 - (smallFontHeight/2), Gfx.FONT_SMALL, getLastWorkoutDetails(-1), Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth() / 2, 5 * dc.getHeight() / 18 - (smallFontHeight/2), Gfx.FONT_SYSTEM_TINY, getLastWorkoutDetails(-1), Gfx.TEXT_JUSTIFY_CENTER);
     }
 
 	function drawMiddleItem(dc) {
 		dc.drawText(dc.getWidth() / 2, 4 * dc.getHeight() / 9 - (largeFontHeight / 2), Gfx.FONT_LARGE, getItemDisplayText(0), Gfx.TEXT_JUSTIFY_CENTER);
-        dc.drawText(dc.getWidth() / 2, 11 * dc.getHeight() / 18 - (smallFontHeight/2), Gfx.FONT_SMALL, getLastWorkoutDetails(0), Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth() / 2, 11 * dc.getHeight() / 18 - (smallFontHeight/2), Gfx.FONT_SYSTEM_TINY, getLastWorkoutDetails(0), Gfx.TEXT_JUSTIFY_CENTER);
 	}
     
     function drawBottomItem(dc){
     	dc.drawText(dc.getWidth() / 2, 7 * dc.getHeight() / 9 - (medFontHeight / 2), Gfx.FONT_MEDIUM, getItemDisplayText(1), Gfx.TEXT_JUSTIFY_CENTER);
-        dc.drawText(dc.getWidth() / 2, 17 * dc.getHeight() / 18 - (smallFontHeight/2), Gfx.FONT_SMALL, getLastWorkoutDetails(1), Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth() / 2, 17 * dc.getHeight() / 18 - (smallFontHeight/2), Gfx.FONT_SYSTEM_TINY, getLastWorkoutDetails(1), Gfx.TEXT_JUSTIFY_CENTER);
     }
     
     function getItemDisplayText(selectedItemOffset) {
@@ -101,8 +102,45 @@ class GarminGymExerciseTrackerView extends Ui.View {
     }
     
     function getLastWorkoutDetails(selectedItemOffset) {
-    	return "WorkoutDisplay";
+    	var indexCat = selectedIndex + selectedItemOffset;
+		
+		if(indexCat < 0 ){
+			indexCat = selectedCategories.size() - 1;
+		}
+		
+		if(indexCat >= selectedCategories.size()){
+			indexCat = 0;
+		}
+		
+		return getRecordedExerciseValue(selectedCategories[indexCat].id)	;
     }
+    
+    function getRecordedExerciseValue(catId){
+	
+		var val = "";
+		if(catId != null) {
+					
+			var weight = App.getApp().getProperty("W_" + catId);
+			var sets = App.getApp().getProperty("S_" + catId);
+			var reps = App.getApp().getProperty("R_" + catId);
+					
+			if(weight != null){
+		 		val = "Wt.: " + weight;
+		 	}
+		 	if(sets != null){
+		 		val = val + " Sets: " + sets;
+		 	}
+		 	if(reps != null){
+		 		val = val + " Reps: " + reps;
+		 	}
+		}
+		
+		if(val.length() == 0){
+			val = "---";
+		}
+		
+		return val;
+	}
     
     // Decrement the currently selected option index
     function incIndex() {
