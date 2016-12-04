@@ -8,7 +8,7 @@ class GarminGymExerciseTrackerView extends Ui.View {
 
     // Load your resources here
     function onLayout(dc) {
-        setLayout(Rez.Layouts.MainLayout(dc));
+        
     }
 
     // Called when this View is brought to the foreground. Restore
@@ -19,8 +19,21 @@ class GarminGymExerciseTrackerView extends Ui.View {
 
     // Update the view
     function onUpdate(dc) {
-        // Call the parent onUpdate function to redraw the layout
-        View.onUpdate(dc);
+        
+        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
+        dc.clear();
+        
+        // Draw selected box
+        dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT);
+        dc.fillRectangle(0, dc.getHeight() / itemsToDisplay, dc.getWidth(), dc.getHeight() / itemsToDisplay);
+        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+
+        // Draw frames
+        dc.drawLine(0, dc.getHeight() / itemsToDisplay, dc.getWidth(), dc.getHeight() / itemsToDisplay);
+        dc.drawLine(0, 2 * dc.getHeight() / itemsToDisplay, dc.getWidth(), 2 * dc.getHeight() / itemsToDisplay);
+        
+        
+        
     }
 
     // Called when this View is removed from the screen. Save the
