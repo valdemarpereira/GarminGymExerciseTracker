@@ -2,6 +2,8 @@ using Toybox.Application as App;
 using Toybox.WatchUi as Ui;
 
 class GarminGymExerciseTrackerApp extends App.AppBase {
+	var mainView;
+	var viewDelegate;
 
     function initialize() {
         AppBase.initialize();
@@ -17,7 +19,9 @@ class GarminGymExerciseTrackerApp extends App.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() {
-        return [ new GarminGymExerciseTrackerView(), new GarminGymExerciseTrackerDelegate() ];
+    	mainView = new GarminGymExerciseTrackerView();
+    	viewDelegate = new GarminGymExerciseTrackerDelegate();
+        return [ mainView, viewDelegate ];
     }
 
 }

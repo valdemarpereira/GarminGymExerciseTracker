@@ -48,7 +48,6 @@ class GarminGymExerciseTrackerView extends Ui.View {
 
     // Update the view
     function onUpdate(dc) {
-         
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
         dc.clear();
         
@@ -101,9 +100,30 @@ class GarminGymExerciseTrackerView extends Ui.View {
     	return "WorkoutDisplay";
     }
     
+    // Decrement the currently selected option index
+    function incIndex() {
+        if (null != selectedIndex) {
+            selectedIndex += 1;
+            if (selectedIndex >= selectedCategories.size()) {
+                selectedIndex = 0;
+            }
+        }
+    }
+
+    // Decrement the currently selected option index
+    function decIndex() {
+        if (null != selectedIndex) {
+            selectedIndex -= 1;
+            if (selectedIndex < 0) {
+                selectedIndex = selectedCategories.size() - 1;
+            }
+        }
+    }
     
-    
-    
+    // Process the current attention action
+    function action() {
+    	// To be implemented
+    }
     
     
     // Called when this View is removed from the screen. Save the
