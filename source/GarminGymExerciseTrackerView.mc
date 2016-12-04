@@ -9,6 +9,10 @@ class GarminGymExerciseTrackerView extends Ui.View {
     hidden var selectedIndex;
     hidden var selectedCategories;
     
+    //Track selected Categories and current Cat
+    hidden var trackCategories = [];
+	hidden var trackSelectedIndex = [];
+    
     hidden var itemsToDisplay = 3;
 	
 	var cats23 = [ new Categorie("Cat 321", null, "23_1"),
@@ -122,9 +126,28 @@ class GarminGymExerciseTrackerView extends Ui.View {
     
     // Process the current attention action
     function action() {
-    	// To be implemented
+    	if(selectedCategories[selectedIndex].subCat != null){
+    		trackCategories.add(selectedCategories);
+    		trackSelectedIndex.add(selectedIndex);
+    		selectedCategories = selectedCategories[selectedIndex].subCat;
+    		selectedIndex = 0;
+    	} else {
+    		//TODO: Push View to enter workout results
+    	}
     }
     
+    function back(){
+    	if(trackCategories.size() == 0){
+    		// exit
+    		return;
+    	}
+    	
+    	selectedCategories = trackCategories[trackCategories.size() - 1];
+    	trackCategories.remove(selectedCategories);
+    	
+    	selectedIndex = trackSelectedIndex[trackSelectedIndex.size() - 1];
+    	trackSelectedIndex.remove(selectedIndex);
+    }
     
     // Called when this View is removed from the screen. Save the
     // state of this View here. This includes freeing resources from
