@@ -6,12 +6,29 @@ class GarminGymExerciseTrackerView extends Ui.View {
 	hidden var medFontHeight = Gfx.getFontHeight(Gfx.FONT_MEDIUM);
     hidden var largeFontHeight = Gfx.getFontHeight(Gfx.FONT_LARGE);
     hidden var smallFontHeight =  Gfx.getFontHeight(Gfx.FONT_SMALL);
+    hidden var selectedIndex;
+    hidden var selectedCategories;
     
     hidden var itemsToDisplay = 3;
-    
-    
-    
-    
+	
+	var cats23 = [ new Categorie("Cat 321", null, "23_1"),
+                 new Categorie("Cat 322", null, "23_2"),
+                 new Categorie("Cat 323", null, "23_3"),
+                 new Categorie("Cat 324", null, "23_4")];
+                 
+
+	var cats2 = [ new Categorie("Cat 21", null, "2_1"),
+                 new Categorie("Cat 22", null, "2_2"),
+                 new Categorie("Cat 23", cats23, null),
+                 new Categorie("Cat 24", null, "2_3")];
+                 
+
+	var top = [ new Categorie("Cat 1", null, "t_1"),
+                 new Categorie("Cat 2", cats2, null),
+                 new Categorie("Cat 3", null, "t_3"),
+                 new Categorie("Cat 4", null, "t_4"),
+                 new Categorie("Cat 5", null, "t_5"),
+                 new Categorie("Cat 6", null, "t_6")];
         	
     function initialize() {
         View.initialize();
@@ -19,7 +36,8 @@ class GarminGymExerciseTrackerView extends Ui.View {
 
     // Load your resources here
     function onLayout(dc) {
-        
+        selectedIndex = 0;
+        selectedCategories = top;
     }
 
     // Called when this View is brought to the foreground. Restore
@@ -65,12 +83,29 @@ class GarminGymExerciseTrackerView extends Ui.View {
     }
     
     function getItemDisplayText(selectedItemOffset) {
-    	return "TEXT";
+    	
+		var indexCat = selectedIndex + selectedItemOffset;
+		
+		if(indexCat < 0 ){
+			indexCat = selectedCategories.size() - 1;
+		}
+		
+		if(indexCat >= selectedCategories.size()){
+			indexCat = 0;
+		}
+			
+		return selectedCategories[indexCat].catName + (selectedCategories[indexCat].subCat != null ? " >" : "");
     }
     
     function getLastWorkoutDetails(selectedItemOffset) {
     	return "WorkoutDisplay";
     }
+    
+    
+    
+    
+    
+    
     // Called when this View is removed from the screen. Save the
     // state of this View here. This includes freeing resources from
     // memory.
