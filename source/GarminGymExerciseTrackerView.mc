@@ -132,7 +132,7 @@ class GarminGymExerciseTrackerView extends Ui.View {
     		selectedCategories = selectedCategories[selectedIndex].subCat;
     		selectedIndex = 0;
     	} else {
-    		//TODO: Push View to enter workout results
+    		Ui.pushView(new RecordExercisePickerView(), new RecordExercisePickerDelegate(selectedCategories[selectedIndex].id), Ui.SLIDE_IMMEDIATE);
     	}
     }
     
