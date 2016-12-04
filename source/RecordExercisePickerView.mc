@@ -31,8 +31,13 @@ class RecordExercisePickerDelegate extends Ui.PickerDelegate {
     }
 
     function onAccept(values) {
-    
-    	// TODO: Store Values
+    	var weight = values[0];
+    	var reps = values[2];
+    	var sets = values[4];
+
+		App.getApp().setProperty("W_" + mCatId, weight);
+		App.getApp().setProperty("R_" + mCatId, reps);
+		App.getApp().setProperty("S_" + mCatId, sets);
 		
         Ui.popView(Ui.SLIDE_IMMEDIATE);
     }
