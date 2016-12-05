@@ -155,11 +155,11 @@ class GarminGymExerciseTrackerView extends Ui.View {
 			if(weight != null){
 		 		val = "Wt.: " + weight;
 		 	}
-		 	if(sets != null){
-		 		val = val + " Sets: " + sets;
-		 	}
 		 	if(reps != null){
 		 		val = val + " Reps: " + reps;
+		 	}
+		 	if(sets != null){
+		 		val = val + " Sets: " + sets;
 		 	}
 		}
 		
