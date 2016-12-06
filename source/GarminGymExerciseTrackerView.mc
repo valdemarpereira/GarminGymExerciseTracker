@@ -19,24 +19,35 @@ class GarminGymExerciseTrackerView extends Ui.View {
     
     hidden var itemsToDisplay = 3;
 	
-	var cats23 = [ new Categorie("Cat 321", null, "23_1"),
-                 new Categorie("Cat 322", null, "23_2"),
-                 new Categorie("Cat 323", null, "23_3"),
-                 new Categorie("Cat 324", null, "23_4")];
+	var bench = [ new Categorie("Dumbbell Bench Press", null, "b1"),
+                 new Categorie("Incline Dumbbell Bench Press", null, "b2")];
                  
-
-	var cats2 = [ new Categorie("Cat 21", null, "2_1"),
-                 new Categorie("Cat 22", null, "2_2"),
-                 new Categorie("Cat 23", cats23, null),
-                 new Categorie("Cat 24", null, "2_3")];
+	var dumbbells = [ new Categorie("Hammer curls", null, "d1"),
+                 new Categorie("Preacher Curls", null, "d2"),
+                 new Categorie("Concentration Curls", null, "d4"),
+                 new Categorie("Cross Body Hammer Curl", null, "d3")];
                  
+    var barbell = [ new Categorie("Deadlift", null, "b1"),
+                 new Categorie("Squat", null, "b2"),
+                 new Categorie("Finger Curls", null, "b3"),
+                 new Categorie("Deadrows", null, "b4")];
+                 
+    var cable = [ new Categorie("Hammer curls", null, "c1"),
+                 new Categorie("Cable Cross", null, "c2"),
+                 new Categorie("Low Cable Crossover", null, "c3"),
+                 new Categorie("Triceps Pushdown - Rope", null, "c4"),
+                 new Categorie("Seated Cable Rows", null, "c5"),
+                 new Categorie("External Rotation", null, "c6"),
+                 new Categorie("Front Cable Raise", null, "c7"),
+                 new Categorie("Triceps Overhead Extension with Rope", null, "c8"),
+                 new Categorie("Wide-Grip Lat Pulldown", null, "c9"),
+                 new Categorie("Standing Biceps Cable Curl", null, "c10"),
+                 new Categorie("Standing Cable Wood Chop", null, "c11")];
 
-	var top = [ new Categorie("Cat 1", null, "t_1"),
-                 new Categorie("Cat 2", cats2, null),
-                 new Categorie("Cat 3", null, "t_3"),
-                 new Categorie("Cat 4", null, "t_4"),
-                 new Categorie("Cat 5", null, "t_5"),
-                 new Categorie("Cat 6", null, "t_6")];
+	var top = [ new Categorie("Dumbbells", dumbbells, null),
+                 new Categorie("Bench", bench, null),
+                 new Categorie("Cable Machine", cable, null),
+                 new Categorie("Barbell", barbell, null)];
         	
     function initialize() {
         View.initialize();
