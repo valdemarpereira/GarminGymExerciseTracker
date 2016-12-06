@@ -1,8 +1,14 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
+using Toybox.System as Sys;
+using Toybox.Timer as Timer;
+
+var delta = 1;
 
 class GarminGymExerciseTrackerView extends Ui.View {
+	var timer1;
+	var requestUIUpdate = false;
 
 	hidden var medFontHeight = Gfx.getFontHeight(Gfx.FONT_MEDIUM);
     hidden var largeFontHeight = Gfx.getFontHeight(Gfx.FONT_LARGE);
@@ -57,6 +63,8 @@ class GarminGymExerciseTrackerView extends Ui.View {
     function onLayout(dc) {
         selectedIndex = 0;
         selectedCategories = top;
+        timer1 = new Timer.Timer();
+        timer1.start(method(:callback), 50, true);
     }
 
     // Called when this View is brought to the foreground. Restore
@@ -67,6 +75,8 @@ class GarminGymExerciseTrackerView extends Ui.View {
 
     // Update the view
     function onUpdate(dc) {
+    	requestUIUpdate = false;
+   
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
         dc.clear();
         
@@ -95,13 +105,64 @@ class GarminGymExerciseTrackerView extends Ui.View {
     }
 
 	function drawMiddleItem(dc) {
+	
 		if(isCategory(0)){
 			dc.drawText(dc.getWidth() / 2, 3 * dc.getHeight() / 6 - (largeFontHeight / 2), Gfx.FONT_LARGE, getItemDisplayText(0), Gfx.TEXT_JUSTIFY_CENTER);	
 		} else {
-			dc.drawText(dc.getWidth() / 2, 4 * dc.getHeight() / 9 - (largeFontHeight / 2), Gfx.FONT_LARGE, getItemDisplayText(0), Gfx.TEXT_JUSTIFY_CENTER);
+			var text = getItemDisplayText(0);
+			
+			var size = dc.getTextWidthInPixels(text, Gfx.FONT_LARGE);
+    		if(size > dc.getWidth()) {
+    			animateText(dc, text);
+			} else {
+				dc.drawText(dc.getWidth() / 2, 4 * dc.getHeight() / 9 - (largeFontHeight / 2), Gfx.FONT_LARGE, text, Gfx.TEXT_JUSTIFY_CENTER);
+			}  
+			
         	dc.drawText(dc.getWidth() / 2, 11 * dc.getHeight() / 18 - (smallFontHeight/2), Gfx.FONT_SYSTEM_TINY, getLastWorkoutDetails(0), Gfx.TEXT_JUSTIFY_CENTER);
         }
 	}
+    
+    function animateText(dc, text) {
+    	requestUIUpdate = true;
+    	var size = dc.getTextWidthInPixels(text, Gfx.FONT_LARGE);
+    	var width = dc.getWidth();
+    	
+    	var extra = size - width;
+    	
+    	var x = -extra / 2;
+    	
+    	dc.drawText(x + calculateDeltaAnimation(extra), 4 * dc.getHeight() / 9 - (largeFontHeight / 2), Gfx.FONT_LARGE, text, Gfx.TEXT_JUSTIFY_LEFT);
+    }
+    
+    enum {
+    	LEFT,
+    	RIGHT
+    }
+    
+    var direction = LEFT;
+    var extraPadding = 5;
+    
+    function calculateDeltaAnimation(extra){
+    	if(direction == LEFT){    	
+    		delta -=3;
+    	} else if (direction == RIGHT){    	
+    		delta += 3;
+    	}
+    	
+    	if(delta >= (extra  / 2) + extraPadding && direction == RIGHT) {
+    		direction = LEFT;
+    	} else if(direction == LEFT && delta <= (extra / -2) - extraPadding) {
+    		direction = RIGHT;
+    	}
+    	return delta;
+    }
+    
+    function callback() {
+        if(requestUIUpdate) {
+        	Ui.requestUpdate();
+        }
+    }
+    
     
     function drawBottomItem(dc){
     	if(isCategory(1)){
